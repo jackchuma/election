@@ -11,7 +11,7 @@ describe("Election", function () {
 
   context("Deployment", async function() {
     this.beforeEach(async function() {
-      this.election = await this.Election.deploy("Elon Musk", "Jeff Bezos");
+      this.election = await this.Election.deploy("Elon Musk", "Jeff Bezos", 5);
       await this.election.deployed();
     });
 
@@ -23,7 +23,7 @@ describe("Election", function () {
 
   context("Voting", async function() {
     this.beforeEach(async function() {
-      this.election = await this.Election.deploy("Elon Musk", "Jeff Bezos");
+      this.election = await this.Election.deploy("Elon Musk", "Jeff Bezos", 5);
       await this.election.deployed();
     });
 

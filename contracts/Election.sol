@@ -10,6 +10,7 @@ contract Election is Ownable {
 
     string public candA;
     string public candB;
+    uint256 public totalVotes;
 
     Counters.Counter public aTotal;
     Counters.Counter public bTotal;
@@ -17,15 +18,19 @@ contract Election is Ownable {
     mapping (address => bool) public hasVoted;
     mapping (address => Vote) public votedFor;
 
+    bool public completed;
+    Vote public winner;
+
     enum Vote {
         NotVoted,
         CandA,
         CandB
     }
 
-    constructor(string memory _candidateA, string memory _candidateB) {
+    constructor(string memory _candidateA, string memory _candidateB, uint256 _totalVotes) {
         candA = _candidateA;
         candB = _candidateB;
+        totalVotes = _totalVotes;
     }
 
     function voteA() external {
