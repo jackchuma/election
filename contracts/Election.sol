@@ -22,4 +22,8 @@ contract Election is Ownable {
     function voteA() external {
         aTotal.increment();
     }
+
+    function voteB() external {
+        bTotal.increment();
+    }
 }

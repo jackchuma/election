@@ -33,5 +33,12 @@ describe("Election", function () {
       await this.election.connect(this.bob).voteA();
       await this.election.connect(this.carol).voteA();
     });
+
+    it ("Anyone can vote for candidate B", async function() {
+      await this.election.connect(this.owner).voteB();
+      await this.election.connect(this.alice).voteB();
+      await this.election.connect(this.bob).voteB();
+      await this.election.connect(this.carol).voteB();
+    });
   });
 });
