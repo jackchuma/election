@@ -34,11 +34,15 @@ describe("Election", function () {
 
     it ("Only owner can change name of candidate A", async function() {
       await expect(this.election.connect(this.alice).setCandA("Jefferey")).to.be.revertedWith("caller is not the owner");
-    })
+    });
 
     it ("Should be able to change name of candidate B", async function() {
       await this.election.connect(this.owner).setCandB("Jefferey");
       expect(await this.election.candB()).to.equal("Jefferey");
+    });
+
+    it ("Only owner can change name of candidate B", async function() {
+      await expect(this.election.connect(this.alice).setCandB("Jefferey")).to.be.revertedWith("caller is not the owner");
     });
   });
 });
