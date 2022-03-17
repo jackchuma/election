@@ -19,4 +19,16 @@ describe("Election", function () {
       expect(await this.election.candB()).to.equal("Jeff Bezos");
     });
   });
+
+  context("Variable Setting", async function() {
+    this.beforeEach(async function() {
+      this.election = await this.Election.deploy("Elon Musk", "Jeff Bezos");
+      await this.election.deployed();
+    });
+
+    it ("Should be able to change name of candidate A", async function() {
+      await this.election.setCandA("Jefferey");
+      expect(await this.election.candA()).to.equal("Jefferey");
+    });
+  });
 });
