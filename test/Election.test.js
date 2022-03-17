@@ -27,8 +27,11 @@ describe("Election", function () {
       await this.election.deployed();
     });
 
-    it.only ("Anyone can vote for candidate A", async function() {
+    it ("Anyone can vote for candidate A", async function() {
       await this.election.connect(this.owner).voteA();
+      await this.election.connect(this.alice).voteA();
+      await this.election.connect(this.bob).voteA();
+      await this.election.connect(this.carol).voteA();
     });
   });
 });

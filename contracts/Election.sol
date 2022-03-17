@@ -18,4 +18,8 @@ contract Election is Ownable {
         candA = _candidateA;
         candB = _candidateB;
     }
+
+    function voteA() external {
+        aTotal.increment();
+    }
 }
