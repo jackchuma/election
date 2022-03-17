@@ -74,5 +74,12 @@ describe("Election", function () {
       await this.election.connect(this.alice).voteB();
       await expect(this.election.connect(this.alice).voteB()).to.be.revertedWith("already voted");
     });
+
+    it ("Each person can only vote once for either candidate", async function() {
+      await this.election.connect(this.alice).voteB();
+      await this.election.connect(this.bob).voteA();
+      await expect(this.election.connect(this.alice).voteA()).to.be.revertedWith("already voted");
+      await expect(this.election.connect(this.bob).voteB()).to.be.revertedWith("already voted");
+    });
   });
 });
