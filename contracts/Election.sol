@@ -15,6 +15,12 @@ contract Election is Ownable {
     Counters.Counter public bTotal;
 
     mapping (address => bool) public hasVoted;
+    mapping (address => Vote) public votedFor;
+
+    enum Vote {
+        CandA,
+        CandB
+    }
 
     constructor(string memory _candidateA, string memory _candidateB) {
         candA = _candidateA;
@@ -31,5 +37,9 @@ contract Election is Ownable {
         require(!hasVoted[msg.sender], "already voted");
         bTotal.increment();
         hasVoted[msg.sender] = true;
+    }
+
+    function getVote(address _voter) external view returns (Vote _vote) {
+        return votedFor[_voter];
     }
 }

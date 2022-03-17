@@ -81,5 +81,14 @@ describe("Election", function () {
       await expect(this.election.connect(this.alice).voteA()).to.be.revertedWith("already voted");
       await expect(this.election.connect(this.bob).voteB()).to.be.revertedWith("already voted");
     });
+
+    it.only ("votes are stored in mapping", async function() {
+      await this.election.connect(this.owner).voteA();
+      await this.election.connect(this.alice).voteB();
+      await this.election.connect(this.bob).voteA();
+      await this.election.connect(this.carol).voteB();
+      expect(await this.election.votedFor(this.owner.address)).to.equal(0);
+      expect(await this.election.votedFor(this.alice.address)).to.equal(1);
+    });
   });
 });
