@@ -30,5 +30,10 @@ describe("Election", function () {
       await this.election.setCandA("Jefferey");
       expect(await this.election.candA()).to.equal("Jefferey");
     });
+
+    it ("Should be able to change name of candidate B", async function() {
+      await this.election.setCandB("Jefferey");
+      expect(await this.election.candB()).to.equal("Jefferey");
+    });
   });
 });
