@@ -14,13 +14,17 @@ contract Election is Ownable {
     Counters.Counter public aTotal;
     Counters.Counter public bTotal;
 
+    mapping (address => bool) public hasVoted;
+
     constructor(string memory _candidateA, string memory _candidateB) {
         candA = _candidateA;
         candB = _candidateB;
     }
 
     function voteA() external {
+        require(!hasVoted[msg.sender], "already voted");
         aTotal.increment();
+        hasVoted[msg.sender] = true;
     }
 
     function voteB() external {

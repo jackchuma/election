@@ -46,6 +46,11 @@ describe("Election", function () {
       expect((await this.election.aTotal()).toNumber()).to.equal(4);
     });
 
+    it ("Each person can only vote once for candidate A", async function() {
+      await this.election.connect(this.alice).voteA();
+      await expect(this.election.connect(this.alice).voteA()).to.be.revertedWith("already voted");
+    });
+
     it ("Anyone can vote for candidate B", async function() {
       await this.election.connect(this.owner).voteB();
       await this.election.connect(this.alice).voteB();
