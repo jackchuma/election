@@ -18,6 +18,7 @@ contract Election is Ownable {
     mapping (address => Vote) public votedFor;
 
     enum Vote {
+        NotVoted,
         CandA,
         CandB
     }
@@ -31,12 +32,14 @@ contract Election is Ownable {
         require(!hasVoted[msg.sender], "already voted");
         aTotal.increment();
         hasVoted[msg.sender] = true;
+        votedFor[msg.sender] = Vote.CandA;
     }
 
     function voteB() external {
         require(!hasVoted[msg.sender], "already voted");
         bTotal.increment();
         hasVoted[msg.sender] = true;
+        votedFor[msg.sender] = Vote.CandB;
     }
 
     function getVote(address _voter) external view returns (Vote _vote) {
