@@ -19,7 +19,7 @@ contract Election is Ownable {
         candB = _candidateB;
     }
 
-    function setCandA(string memory _input) external {
+    function setCandA(string memory _input) external onlyOwner {
         candA = _input;
     }
 

@@ -4,7 +4,8 @@ const { isCallTrace } = require("hardhat/internal/hardhat-network/stack-traces/m
 
 describe("Election", function () {
   before(async function() {
-    this.signers = ethers.getSigners();
+    this.signers = await ethers.getSigners();
+    [this.owner, this.alice, this.bob, this.carol] = this.signers;
     this.Election = await ethers.getContractFactory("Election");
   });
 
@@ -27,12 +28,16 @@ describe("Election", function () {
     });
 
     it ("Should be able to change name of candidate A", async function() {
-      await this.election.setCandA("Jefferey");
+      await this.election.connect(this.owner).setCandA("Jefferey");
       expect(await this.election.candA()).to.equal("Jefferey");
     });
 
+    it ("Only owner can change name of candidate A", async function() {
+      await expect(this.election.connect(this.alice).setCandA("Jefferey")).to.be.revertedWith("caller is not the owner");
+    })
+
     it ("Should be able to change name of candidate B", async function() {
-      await this.election.setCandB("Jefferey");
+      await this.election.connect(this.owner).setCandB("Jefferey");
       expect(await this.election.candB()).to.equal("Jefferey");
     });
   });
