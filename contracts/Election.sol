@@ -28,6 +28,8 @@ contract Election is Ownable {
     }
 
     function voteB() external {
+        require(!hasVoted[msg.sender], "already voted");
         bTotal.increment();
+        hasVoted[msg.sender] = true;
     }
 }
