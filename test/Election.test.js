@@ -34,6 +34,18 @@ describe("Election", function () {
       await this.election.connect(this.carol).voteA();
     });
 
+    it ("voteA() increments aTotal", async function() {
+      expect((await this.election.aTotal()).toNumber()).to.equal(0);
+      await this.election.connect(this.owner).voteA();
+      expect((await this.election.aTotal()).toNumber()).to.equal(1);
+      await this.election.connect(this.alice).voteA();
+      expect((await this.election.aTotal()).toNumber()).to.equal(2);
+      await this.election.connect(this.bob).voteA();
+      expect((await this.election.aTotal()).toNumber()).to.equal(3);
+      await this.election.connect(this.carol).voteA();
+      expect((await this.election.aTotal()).toNumber()).to.equal(4);
+    });
+
     it ("Anyone can vote for candidate B", async function() {
       await this.election.connect(this.owner).voteB();
       await this.election.connect(this.alice).voteB();
