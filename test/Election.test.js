@@ -52,5 +52,17 @@ describe("Election", function () {
       await this.election.connect(this.bob).voteB();
       await this.election.connect(this.carol).voteB();
     });
+
+    it ("voteB() increments bTotal", async function() {
+      expect((await this.election.bTotal()).toNumber()).to.equal(0);
+      await this.election.connect(this.owner).voteB();
+      expect((await this.election.bTotal()).toNumber()).to.equal(1);
+      await this.election.connect(this.alice).voteB();
+      expect((await this.election.bTotal()).toNumber()).to.equal(2);
+      await this.election.connect(this.bob).voteB();
+      expect((await this.election.bTotal()).toNumber()).to.equal(3);
+      await this.election.connect(this.carol).voteB();
+      expect((await this.election.bTotal()).toNumber()).to.equal(4);
+    });
   });
 });
