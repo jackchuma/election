@@ -85,7 +85,7 @@ contract Election is Ownable {
     }
 
     function reset() external onlyOwner {
-        require(limbo == false, "election already reset");
+        require(!limbo, "election already reset");
         require(completed == true, "election is active");
         require(block.number > resetBlockNumber, "election is locked");
         candA = "";
@@ -110,17 +110,17 @@ contract Election is Ownable {
     }
 
     function setCandA(string memory _name) external onlyOwner {
-        require(limbo == true, "cannot set now");
+        require(limbo, "cannot set now");
         candA = _name;
     }
 
     function setCandB(string memory _name) external onlyOwner {
-        require(limbo == true, "cannot set now");
+        require(limbo, "cannot set now");
         candB = _name;
     }
 
     function setExpectedVotes(uint256 _num) external onlyOwner {
-        require(limbo == true, "cannot set now");
+        require(limbo, "cannot set now");
         expectedVotes = _num;
     }
 }
