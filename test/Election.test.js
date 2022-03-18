@@ -327,5 +327,11 @@ describe("Election", function () {
       await this.election.connect(this.owner).reset();
       await expect(this.election.voters(0)).to.be.reverted;
     });
+
+    it ("Reset keeps election as not active", async function() {
+      await this.election.connect(this.carol).voteB();
+      await this.election.connect(this.owner).reset();
+      expect(await this.election.active()).to.equal(false);
+    });
   });
 });
