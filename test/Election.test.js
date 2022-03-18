@@ -321,5 +321,11 @@ describe("Election", function () {
       expect(await this.election.votedFor(this.bob.address)).to.equal(0);
       expect(await this.election.votedFor(this.carol.address)).to.equal(0);
     });
+
+    it ("Reset clears voters array", async function() {
+      await this.election.connect(this.carol).voteB();
+      await this.election.connect(this.owner).reset();
+      await expect(this.election.voters(0)).to.be.reverted;
+    });
   });
 });
