@@ -249,11 +249,12 @@ describe("Election", function () {
     });
 
     it ("Stores resetBlockNumber when completed", async function() {
+      const blockNumber = await ethers.provider.getBlockNumber();
       await this.election.connect(this.owner).voteA();
       await this.election.connect(this.alice).voteB();
       await this.election.connect(this.bob).voteA();
       await this.election.connect(this.carol).voteB();
-      expect((await this.election.resetBlockNumber()).toNumber()).to.not.equal(0);
+      expect((await this.election.resetBlockNumber()).toNumber()).to.equal(blockNumber + 14);
     });
   });
 
