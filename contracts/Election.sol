@@ -118,4 +118,8 @@ contract Election is Ownable {
         require(limbo == true, "cannot set now");
         candB = _name;
     }
+
+    function setExpectedVotes(uint256 _num) external {
+        expectedVotes = _num;
+    }
 }
