@@ -21,6 +21,7 @@ contract Election is Ownable {
 
     mapping (address => bool) public hasVoted;
     mapping (address => Vote) public votedFor;
+    address[] public voters;
 
     bool public active = true;
     bool public completed;
@@ -43,6 +44,7 @@ contract Election is Ownable {
         require(!hasVoted[msg.sender], "already voted");
         aTotal.increment();
         totalVotes.increment();
+        voters.push(msg.sender);
         hasVoted[msg.sender] = true;
         votedFor[msg.sender] = Vote.CandA;
         _electionStatus();
@@ -53,6 +55,7 @@ contract Election is Ownable {
         require(!hasVoted[msg.sender], "already voted");
         bTotal.increment();
         totalVotes.increment();
+        voters.push(msg.sender);
         hasVoted[msg.sender] = true;
         votedFor[msg.sender] = Vote.CandB;
         _electionStatus();

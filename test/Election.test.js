@@ -91,6 +91,36 @@ describe("Election", function () {
       expect((await this.election.bTotal()).toNumber()).to.equal(4);
     });
 
+    it ("Contract keeps array of voters", async function() {
+      await expect(this.election.voters(0)).to.be.reverted;
+
+      await this.election.connect(this.owner).voteA();
+
+      expect(await this.election.voters(0)).to.equal(this.owner.address);
+      await expect(this.election.voters(1)).to.be.reverted;
+
+      await this.election.connect(this.alice).voteB();
+
+      expect(await this.election.voters(0)).to.equal(this.owner.address);
+      expect(await this.election.voters(1)).to.equal(this.alice.address);
+      await expect(this.election.voters(2)).to.be.reverted;
+
+      await this.election.connect(this.bob).voteA();
+
+      expect(await this.election.voters(0)).to.equal(this.owner.address);
+      expect(await this.election.voters(1)).to.equal(this.alice.address);
+      expect(await this.election.voters(2)).to.equal(this.bob.address);
+      await expect(this.election.voters(3)).to.be.reverted;
+
+      await this.election.connect(this.carol).voteB();
+
+      expect(await this.election.voters(0)).to.equal(this.owner.address);
+      expect(await this.election.voters(1)).to.equal(this.alice.address);
+      expect(await this.election.voters(2)).to.equal(this.bob.address);
+      expect(await this.election.voters(3)).to.equal(this.carol.address);
+      await expect(this.election.voters(4)).to.be.reverted;
+    });
+
     it ("Each person can only vote once for candidate B", async function() {
       await this.election.connect(this.alice).voteB();
       await expect(this.election.connect(this.alice).voteB()).to.be.revertedWith("already voted");
