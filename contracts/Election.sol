@@ -1,11 +1,8 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-
-// TODO: add function to initiate election
 
 contract Election is Ownable {
     using Counters for Counters.Counter;
@@ -35,6 +32,14 @@ contract Election is Ownable {
         CandA,
         CandB
     }
+
+    event ElectionConcluded (
+        string _candA,
+        string _candB,
+        uint256 _aVotes,
+        uint256 _bVotes,
+        string _winner
+    );
 
     constructor(string memory _candidateA, string memory _candidateB, uint256 _totalVotes) {
         candA = _candidateA;
@@ -75,11 +80,15 @@ contract Election is Ownable {
             completed = true;
             active = false;
             resetBlockNumber = block.number + uint256(RESET_DELAY);
+            string memory _winner;
             if (aTotal.current() > bTotal.current()) {
                 winner = Vote.CandA;
+                _winner = candA;
             } else if (aTotal.current() < bTotal.current()) {
                 winner = Vote.CandB;
+                _winner = candB;
             }
+            emit ElectionConcluded(candA, candB, aTotal.current(), bTotal.current(), _winner);
         }
     }
 
