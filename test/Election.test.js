@@ -236,5 +236,9 @@ describe("Election", function () {
       await this.election.connect(this.carol).voteB();
       await expect(this.election.connect(this.alice).reset()).to.be.revertedWith("caller is not the owner");
     });
+
+    it ("Election can only be reset if completed", async function() {
+      await expect(this.election.connect(this.owner).reset()).to.be.revertedWith("election is active");
+    });
   });
 });

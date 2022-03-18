@@ -74,7 +74,7 @@ contract Election is Ownable {
         }
     }
 
-    function reset() external onlyOwner {
-
+    function reset() external view onlyOwner {
+        require(completed == true, "election is active");
     }
 }
