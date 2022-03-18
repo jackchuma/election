@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 // TODO: add reset function for new election
-// TODO: add function to check totalVotes vs expectedVotes and mark complete when reached
+// TODO: can edit variables if election is not active
 
 contract Election is Ownable {
     using Counters for Counters.Counter;
@@ -22,6 +22,7 @@ contract Election is Ownable {
     mapping (address => bool) public hasVoted;
     mapping (address => Vote) public votedFor;
 
+    bool public active = true;
     bool public completed;
     Vote public winner;
 
@@ -64,6 +65,7 @@ contract Election is Ownable {
     function _electionStatus() private {
         if (totalVotes.current() >= expectedVotes) {
             completed = true;
+            active = false;
             if (aTotal.current() > bTotal.current()) {
                 winner = Vote.CandA;
             } else if (aTotal.current() < bTotal.current()) {
