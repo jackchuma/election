@@ -105,6 +105,15 @@ describe("Election", function () {
       expect((await this.election.totalVotes()).toNumber()).to.equal(4);
     });
 
+    it ("marks election as complete when all votes are in", async function() {
+      expect(await this.election.completed()).to.equal(false);
+      await this.election.connect(this.owner).voteA();
+      await this.election.connect(this.alice).voteB();
+      await this.election.connect(this.bob).voteA();
+      await this.election.connect(this.carol).voteA();
+      expect(await this.election.completed()).to.equal(true);
+    });
+
     it ("marks candidate A as winner if they win", async function() {
       await this.election.connect(this.owner).voteA();
       await this.election.connect(this.alice).voteB();
