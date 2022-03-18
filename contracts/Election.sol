@@ -79,5 +79,6 @@ contract Election is Ownable {
         candA = "";
         candB = "";
         expectedVotes = 0;
+        aTotal.reset();
     }
 }

@@ -255,5 +255,11 @@ describe("Election", function () {
       await this.election.connect(this.owner).reset();
       expect((await this.election.expectedVotes()).toNumber()).to.equal(0);
     });
+
+    it ("Reset clears aTotal", async function() {
+      await this.election.connect(this.carol).voteB();
+      await this.election.connect(this.owner).reset();
+      expect((await this.election.aTotal()).toNumber()).to.equal(0);
+    });
   });
 });
