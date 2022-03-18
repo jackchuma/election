@@ -1,6 +1,5 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
-const { isCallTrace } = require("hardhat/internal/hardhat-network/stack-traces/message-trace");
 
 describe("Election", function () {
   before(async function() {
@@ -129,6 +128,17 @@ describe("Election", function () {
       await this.election.connect(this.bob).voteA();
       await this.election.connect(this.carol).voteA();
       expect(await this.election.winner()).to.equal(1);
+    });
+
+    it ("getVote() returns proper vote", async function() {
+      await this.election.connect(this.owner).voteA();
+      await this.election.connect(this.alice).voteB();
+      await this.election.connect(this.bob).voteA();
+      await this.election.connect(this.carol).voteB();
+      expect(await this.election.getVote(this.owner.address)).to.equal(1);
+      expect(await this.election.getVote(this.alice.address)).to.equal(2);
+      expect(await this.election.getVote(this.bob.address)).to.equal(1);
+      expect(await this.election.getVote(this.carol.address)).to.equal(2);
     });
   });
 });
