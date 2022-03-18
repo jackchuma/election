@@ -22,6 +22,12 @@ describe("Election", function () {
     it ("Should store expectedVotes after deployment", async function() {
       expect((await this.election.expectedVotes()).toNumber()).to.equal(5);
     });
+
+    it ("Counter variables should start at 0", async function() {
+      expect((await this.election.aTotal()).toNumber()).to.equal(0);
+      expect((await this.election.bTotal()).toNumber()).to.equal(0);
+      expect((await this.election.totalVotes()).toNumber()).to.equal(0);
+    });
   });
 
   context("Voting", async function() {
