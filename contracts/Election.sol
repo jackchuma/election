@@ -5,7 +5,6 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-// TODO: add reset function for new election
 // TODO: can edit variables if election is in limbo
 
 contract Election is Ownable {
@@ -43,8 +42,8 @@ contract Election is Ownable {
         expectedVotes = _totalVotes;
     }
 
-    // Can't call during limbo
     function voteA() external {
+        require(!limbo, "election not active");
         require(!completed, "Election has completed");
         require(!hasVoted[msg.sender], "already voted");
         aTotal.increment();

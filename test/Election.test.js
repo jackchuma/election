@@ -398,6 +398,13 @@ describe("Election", function () {
       await this.election.connect(this.owner).reset();
       expect(await this.election.winner()).to.equal(0);
     });
+
+    it ("Cannot voteA after reset", async function() {
+      await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
+      await this.election.connect(this.owner).reset();
+      await expect(this.election.connect(this.owner).voteA()).to.be.revertedWith("election not active");
+    });
   });
 });
 
