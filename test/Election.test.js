@@ -260,11 +260,13 @@ describe("Election", function () {
 
     it ("Election can be reset after completion", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
     });
 
     it ("Election can only be reset by owner", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await expect(this.election.connect(this.alice).reset()).to.be.revertedWith("caller is not the owner");
     });
 
@@ -279,48 +281,56 @@ describe("Election", function () {
 
     it ("Election can only be reset once if completed", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       await expect(this.election.connect(this.owner).reset()).to.be.revertedWith("election already reset");
     });
 
     it ("Reset empties candA name", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       expect(await this.election.candA()).to.equal("");
     });
 
     it ("Reset empties candB name", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       expect(await this.election.candB()).to.equal("");
     });
 
     it ("Reset clears expectedVotes", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       expect((await this.election.expectedVotes()).toNumber()).to.equal(0);
     });
 
     it ("Reset clears aTotal", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       expect((await this.election.aTotal()).toNumber()).to.equal(0);
     });
 
     it ("Reset clears bTotal", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       expect((await this.election.bTotal()).toNumber()).to.equal(0);
     });
 
     it ("Reset clears totalVotes", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       expect((await this.election.totalVotes()).toNumber()).to.equal(0);
     });
 
     it ("Reset clears hasVoted", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       expect(await this.election.hasVoted(this.owner.address)).to.equal(false);
       expect(await this.election.hasVoted(this.alice.address)).to.equal(false);
@@ -330,6 +340,7 @@ describe("Election", function () {
 
     it ("Reset clears votedFor", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       expect(await this.election.votedFor(this.owner.address)).to.equal(0);
       expect(await this.election.votedFor(this.alice.address)).to.equal(0);
@@ -339,30 +350,35 @@ describe("Election", function () {
 
     it ("Reset clears voters array", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       await expect(this.election.voters(0)).to.be.reverted;
     });
 
     it ("Reset keeps election as not active", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       expect(await this.election.active()).to.equal(false);
     });
 
     it ("Reset marks election as not completed", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       expect(await this.election.completed()).to.equal(false);
     });
 
     it ("Reset marks election in limbo", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       expect(await this.election.limbo()).to.equal(true);
     });
 
     it ("Reset clears winner", async function() {
       await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       expect(await this.election.winner()).to.equal(0);
     });
