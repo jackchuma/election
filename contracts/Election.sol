@@ -119,7 +119,7 @@ contract Election is Ownable {
         candB = _name;
     }
 
-    function setExpectedVotes(uint256 _num) external {
+    function setExpectedVotes(uint256 _num) external onlyOwner {
         expectedVotes = _num;
     }
 }
