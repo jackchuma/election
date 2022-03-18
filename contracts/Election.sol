@@ -79,6 +79,7 @@ contract Election is Ownable {
     }
 
     function reset() external onlyOwner {
+        require(limbo == false, "election already reset");
         require(completed == true, "election is active");
         candA = "";
         candB = "";
