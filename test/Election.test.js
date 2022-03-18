@@ -242,6 +242,12 @@ describe("Election", function () {
       await this.election.connect(this.carol).voteB();
       await this.election.connect(this.owner).reset();
       expect(await this.election.candA()).to.equal("");
-    })
+    });
+
+    it ("Reset empties candB name", async function() {
+      await this.election.connect(this.carol).voteB();
+      await this.election.connect(this.owner).reset();
+      expect(await this.election.candB()).to.equal("");
+    });
   });
 });
