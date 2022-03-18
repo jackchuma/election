@@ -272,7 +272,12 @@ describe("Election", function () {
       await expect(this.election.connect(this.owner).reset()).to.be.revertedWith("election is active");
     });
 
-    it ("Reset can only be reset once if completed", async function() {
+    it ("Election can be reset after delay", async function() {
+      await this.election.connect(this.carol).voteB();
+      await expect(this.election.connect(this.owner).reset()).to.be.revertedWith("election is locked");
+    });
+
+    it ("Election can only be reset once if completed", async function() {
       await this.election.connect(this.carol).voteB();
       await this.election.connect(this.owner).reset();
       await expect(this.election.connect(this.owner).reset()).to.be.revertedWith("election already reset");
@@ -363,3 +368,9 @@ describe("Election", function () {
     });
   });
 });
+
+async function mineBlocks(n) {
+  for (let i=0; i<n; i++) {
+    await ethers.provider.send('evm_mine');
+  }
+}

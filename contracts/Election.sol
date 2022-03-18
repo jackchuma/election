@@ -6,10 +6,12 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 // TODO: add reset function for new election
-// TODO: can edit variables if election is not active
+// TODO: can edit variables if election is in limbo
 
 contract Election is Ownable {
     using Counters for Counters.Counter;
+
+    uint8 private constant RESET_DELAY = 10;
 
     string public candA;
     string public candB;
@@ -25,6 +27,7 @@ contract Election is Ownable {
 
     bool public active = true;
     bool public completed;
+    uint256 public resetBlockNumber;
     bool public limbo;
     Vote public winner;
 
@@ -70,6 +73,7 @@ contract Election is Ownable {
         if (totalVotes.current() >= expectedVotes) {
             completed = true;
             active = false;
+            resetBlockNumber = block.number + uint256(RESET_DELAY); // test
             if (aTotal.current() > bTotal.current()) {
                 winner = Vote.CandA;
             } else if (aTotal.current() < bTotal.current()) {
@@ -78,9 +82,11 @@ contract Election is Ownable {
         }
     }
 
+    // TODO: add delay after winner announced before reset can be called
     function reset() external onlyOwner {
         require(limbo == false, "election already reset");
         require(completed == true, "election is active");
+        require(block.number > resetBlockNumber, "election is locked");
         candA = "";
         candB = "";
         expectedVotes = 0;
