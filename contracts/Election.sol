@@ -123,7 +123,7 @@ contract Election is Ownable {
         expectedVotes = _num;
     }
 
-    function newElection() external {
-        
+    function newElection() external onlyOwner {
+
     }
 }
