@@ -214,4 +214,19 @@ describe("Election", function () {
       await expect(this.election.connect(this.signers[4]).voteB()).to.be.revertedWith("Election has completed");
     });
   });
+
+  context("Election reset", async function() {
+    this.beforeEach(async function() {
+      this.election = await this.Election.deploy("Elon Musk", "Jeff Bezos", 4);
+      await this.election.deployed();
+    });
+
+    it.only ("Election can be reset after completion", async function() {
+      await this.election.connect(this.owner).voteA();
+      await this.election.connect(this.alice).voteB();
+      await this.election.connect(this.bob).voteA();
+      await this.election.connect(this.carol).voteB();
+      await this.election.connect(this.owner).reset();
+    });
+  });
 });
