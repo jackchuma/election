@@ -114,6 +114,41 @@ describe("Election", function () {
       expect(await this.election.votedFor(this.carol.address)).to.equal(2);
     });
 
+    it ("keeps track of who has voted", async function() {
+      expect(await this.election.hasVoted(this.owner.address)).to.equal(false);
+      expect(await this.election.hasVoted(this.alice.address)).to.equal(false);
+      expect(await this.election.hasVoted(this.bob.address)).to.equal(false);
+      expect(await this.election.hasVoted(this.carol.address)).to.equal(false);
+
+      await this.election.connect(this.owner).voteA();
+
+      expect(await this.election.hasVoted(this.owner.address)).to.equal(true);
+      expect(await this.election.hasVoted(this.alice.address)).to.equal(false);
+      expect(await this.election.hasVoted(this.bob.address)).to.equal(false);
+      expect(await this.election.hasVoted(this.carol.address)).to.equal(false);
+
+      await this.election.connect(this.alice).voteB();
+
+      expect(await this.election.hasVoted(this.owner.address)).to.equal(true);
+      expect(await this.election.hasVoted(this.alice.address)).to.equal(true);
+      expect(await this.election.hasVoted(this.bob.address)).to.equal(false);
+      expect(await this.election.hasVoted(this.carol.address)).to.equal(false);
+
+      await this.election.connect(this.bob).voteA();
+
+      expect(await this.election.hasVoted(this.owner.address)).to.equal(true);
+      expect(await this.election.hasVoted(this.alice.address)).to.equal(true);
+      expect(await this.election.hasVoted(this.bob.address)).to.equal(true);
+      expect(await this.election.hasVoted(this.carol.address)).to.equal(false);
+
+      await this.election.connect(this.carol).voteB();
+
+      expect(await this.election.hasVoted(this.owner.address)).to.equal(true);
+      expect(await this.election.hasVoted(this.alice.address)).to.equal(true);
+      expect(await this.election.hasVoted(this.bob.address)).to.equal(true);
+      expect(await this.election.hasVoted(this.carol.address)).to.equal(true);
+    });
+
     it ("keeps track of total votes received", async function() {
       expect((await this.election.totalVotes()).toNumber()).to.equal(0);
       await this.election.connect(this.owner).voteA();
