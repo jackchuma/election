@@ -47,6 +47,10 @@ contract Election is Ownable {
         expectedVotes = _totalVotes;
     }
 
+    /**
+     * @notice To be called by anyone that wants to vote for candidate A
+     * @dev Increments aTotal and totalVotes then stores voter to keep track of who has voted for who
+    */
     function voteA() external {
         require(!limbo, "election not active");
         require(!completed, "Election has completed");
@@ -59,6 +63,10 @@ contract Election is Ownable {
         _electionStatus();
     }
 
+    /**
+     * @notice To be called by anyone that wants to vote for candidate B
+     * @dev Increments bTotal and totalVotes then stores voter to keep track of who has voted for who
+    */
     function voteB() external {
         require(!limbo, "election not active");
         require(!completed, "Election has completed");
@@ -71,6 +79,11 @@ contract Election is Ownable {
         _electionStatus();
     }
 
+    /**
+     * @notice Getter function that returns who a voter voted for
+     * @param _voter Specific voter
+     * @return _vote The candidate who received this vote
+    */
     function getVote(address _voter) external view returns (Vote _vote) {
         return votedFor[_voter];
     }
@@ -92,6 +105,9 @@ contract Election is Ownable {
         }
     }
 
+    /**
+     * @notice Function to reset all variables after election concludes
+    */
     function reset() external onlyOwner {
         require(!limbo, "election already reset");
         require(completed == true, "election is active");
@@ -117,21 +133,37 @@ contract Election is Ownable {
         }
     }
 
+    /**
+     * @notice Function to set candidate A for next election
+     * @param _name Name of candidate A
+    */
     function setCandA(string memory _name) external onlyOwner {
         require(limbo, "cannot set now");
         candA = _name;
     }
 
+    /**
+     * @notice Function to set candidate B for next election
+     * @param _name Name of candidate B
+    */
     function setCandB(string memory _name) external onlyOwner {
         require(limbo, "cannot set now");
         candB = _name;
     }
 
+    /**
+     * @notice Function to set expected votes for next election
+     * @param _num Amount of votes to expect in next election
+    */
     function setExpectedVotes(uint256 _num) external onlyOwner {
         require(limbo, "cannot set now");
         expectedVotes = _num;
     }
 
+    /**
+     * @notice Function to initiate new election once all necessary variables are set
+     * @dev Sets election as active and not in limbo
+    */
     function newElection() external onlyOwner {
         require(!_equalStrings(candA, ""), "set candA");
         require(!_equalStrings(candB, ""), "set candB");
