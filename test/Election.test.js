@@ -36,6 +36,10 @@ describe("Election", function () {
     it ("election should be marked as not complete", async function() {
       expect(await this.election.completed()).to.equal(false);
     });
+
+    it ("winner variable should be empty", async function() {
+      expect(await this.election.winner()).to.equal(0);
+    });
   });
 
   context("Voting", async function() {
