@@ -18,6 +18,10 @@ describe("Election", function () {
       expect(await this.election.candA()).to.equal("Elon Musk");
       expect(await this.election.candB()).to.equal("Jeff Bezos");
     });
+
+    it ("Should store expectedVotes after deployment", async function() {
+      expect((await this.election.expectedVotes()).toNumber()).to.equal(5);
+    });
   });
 
   context("Voting", async function() {
