@@ -58,4 +58,15 @@ contract Election is Ownable {
     function getVote(address _voter) external view returns (Vote _vote) {
         return votedFor[_voter];
     }
+
+    function _electionStatus() private {
+        if (totalVotes.current() >= expectedVotes) {
+            completed = true;
+            if (aTotal.current() > bTotal.current()) {
+                winner = Vote.CandA;
+            } else if (aTotal.current() < bTotal.current()) {
+                winner = Vote.CandB;
+            }
+        }
+    }
 }
