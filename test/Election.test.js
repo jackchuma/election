@@ -28,6 +28,10 @@ describe("Election", function () {
       expect((await this.election.bTotal()).toNumber()).to.equal(0);
       expect((await this.election.totalVotes()).toNumber()).to.equal(0);
     });
+
+    it ("election should be marked as active", async function() {
+      expect(await this.election.active()).to.equal(true);
+    });
   });
 
   context("Voting", async function() {
