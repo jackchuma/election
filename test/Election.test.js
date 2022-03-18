@@ -148,5 +148,13 @@ describe("Election", function () {
       await this.election.connect(this.carol).voteB();
       await expect(this.election.connect(this.signers[4]).voteA()).to.be.revertedWith("Election has completed");
     });
+
+    it ("Cannot vote B if election has completed", async function() {
+      await this.election.connect(this.owner).voteA();
+      await this.election.connect(this.alice).voteB();
+      await this.election.connect(this.bob).voteA();
+      await this.election.connect(this.carol).voteB();
+      await expect(this.election.connect(this.signers[4]).voteB()).to.be.revertedWith("Election has completed");
+    });
   });
 });
