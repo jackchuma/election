@@ -81,5 +81,6 @@ contract Election is Ownable {
         expectedVotes = 0;
         aTotal.reset();
         bTotal.reset();
+        totalVotes.reset();
     }
 }
