@@ -517,6 +517,15 @@ describe("Election", function () {
       await this.election.connect(this.owner).setExpectedVotes(10);
       await expect(this.election.connect(this.alice).newElection()).to.be.revertedWith("caller is not the owner");
     });
+
+    it ("candA must be set to start new election", async function() {
+      await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
+      await this.election.connect(this.owner).reset();
+      await this.election.connect(this.owner).setCandB("Name B");
+      await this.election.connect(this.owner).setExpectedVotes(10);
+      await expect(this.election.connect(this.owner).newElection()).to.be.revertedWith("set candA");
+    });
   });
 });
 

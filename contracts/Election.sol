@@ -123,7 +123,11 @@ contract Election is Ownable {
         expectedVotes = _num;
     }
 
-    function newElection() external onlyOwner {
+    function newElection() external view onlyOwner {
+        require(!_equalStrings(candA, ""), "set candA");
+    }
 
+    function _equalStrings(string memory _strA, string memory _strB) private pure returns (bool) {
+        return (keccak256(abi.encodePacked(_strA)) == keccak256(abi.encodePacked(_strB)));
     }
 }
