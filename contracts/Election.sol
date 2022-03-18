@@ -89,6 +89,7 @@ contract Election is Ownable {
         totalVotes.reset();
         delete voters;
         completed = false;
+        limbo = true;
         winner = Vote.NotVoted;
     }
 

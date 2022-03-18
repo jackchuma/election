@@ -350,6 +350,12 @@ describe("Election", function () {
       expect(await this.election.completed()).to.equal(false);
     });
 
+    it ("Reset marks election in limbo", async function() {
+      await this.election.connect(this.carol).voteB();
+      await this.election.connect(this.owner).reset();
+      expect(await this.election.limbo()).to.equal(true);
+    });
+
     it ("Reset clears winner", async function() {
       await this.election.connect(this.carol).voteB();
       await this.election.connect(this.owner).reset();
