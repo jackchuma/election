@@ -6,7 +6,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 // TODO: add function to initiate election
-// TODO: can edit variables if election is in limbo
 
 contract Election is Ownable {
     using Counters for Counters.Counter;
@@ -122,5 +121,9 @@ contract Election is Ownable {
     function setExpectedVotes(uint256 _num) external onlyOwner {
         require(limbo, "cannot set now");
         expectedVotes = _num;
+    }
+
+    function newElection() external {
+        
     }
 }
