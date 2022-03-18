@@ -78,5 +78,6 @@ contract Election is Ownable {
         require(completed == true, "election is active");
         candA = "";
         candB = "";
+        expectedVotes = 0;
     }
 }
