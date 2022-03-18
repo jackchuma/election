@@ -73,4 +73,8 @@ contract Election is Ownable {
             }
         }
     }
+
+    function reset() external {
+        
+    }
 }
