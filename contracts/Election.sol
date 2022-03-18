@@ -74,7 +74,7 @@ contract Election is Ownable {
         }
     }
 
-    function reset() external {
-        
+    function reset() external onlyOwner {
+
     }
 }

@@ -221,12 +221,20 @@ describe("Election", function () {
       await this.election.deployed();
     });
 
-    it.only ("Election can be reset after completion", async function() {
+    it ("Election can be reset after completion", async function() {
       await this.election.connect(this.owner).voteA();
       await this.election.connect(this.alice).voteB();
       await this.election.connect(this.bob).voteA();
       await this.election.connect(this.carol).voteB();
       await this.election.connect(this.owner).reset();
+    });
+
+    it ("Election can only be reset by owner", async function() {
+      await this.election.connect(this.owner).voteA();
+      await this.election.connect(this.alice).voteB();
+      await this.election.connect(this.bob).voteA();
+      await this.election.connect(this.carol).voteB();
+      await expect(this.election.connect(this.alice).reset()).to.be.revertedWith("caller is not the owner");
     });
   });
 });
