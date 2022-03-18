@@ -32,6 +32,10 @@ describe("Election", function () {
     it ("election should be marked as active", async function() {
       expect(await this.election.active()).to.equal(true);
     });
+
+    it ("election should be marked as not complete", async function() {
+      expect(await this.election.completed()).to.equal(false);
+    });
   });
 
   context("Voting", async function() {
