@@ -438,6 +438,10 @@ describe("Election", function () {
       await expect(this.election.connect(this.alice).setCandA("Name A")).to.be.revertedWith("caller is not the owner");
     });
 
+    it ("Can only set candA during limbo", async function() {
+      await expect(this.election.connect(this.owner).setCandA("Name A")).to.be.revertedWith("cannot set now");
+    });
+
     it ("Can set candB when election is in limbo", async function() {
       await this.election.connect(this.carol).voteB();
       await mineBlocks(10);

@@ -110,6 +110,7 @@ contract Election is Ownable {
     }
 
     function setCandA(string memory _name) external onlyOwner {
+        require(limbo == true, "cannot set now");
         candA = _name;
     }
 
