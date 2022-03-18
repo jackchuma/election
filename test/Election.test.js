@@ -378,6 +378,13 @@ describe("Election", function () {
       expect(await this.election.completed()).to.equal(false);
     });
 
+    it ("Reset clears resetBlockNumber", async function() {
+      await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
+      await this.election.connect(this.owner).reset();
+      expect((await this.election.resetBlockNumber()).toNumber()).to.equal(0);
+    });
+
     it ("Reset marks election in limbo", async function() {
       await this.election.connect(this.carol).voteB();
       await mineBlocks(10);

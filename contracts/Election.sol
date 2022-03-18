@@ -75,7 +75,7 @@ contract Election is Ownable {
         if (totalVotes.current() >= expectedVotes) {
             completed = true;
             active = false;
-            resetBlockNumber = block.number + uint256(RESET_DELAY); // test
+            resetBlockNumber = block.number + uint256(RESET_DELAY);
             if (aTotal.current() > bTotal.current()) {
                 winner = Vote.CandA;
             } else if (aTotal.current() < bTotal.current()) {
@@ -84,7 +84,6 @@ contract Election is Ownable {
         }
     }
 
-    // TODO: add delay after winner announced before reset can be called
     function reset() external onlyOwner {
         require(limbo == false, "election already reset");
         require(completed == true, "election is active");
@@ -98,6 +97,7 @@ contract Election is Ownable {
         totalVotes.reset();
         delete voters;
         completed = false;
+        resetBlockNumber = 0;
         limbo = true;
         winner = Vote.NotVoted;
     }
