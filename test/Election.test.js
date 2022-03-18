@@ -219,20 +219,17 @@ describe("Election", function () {
     this.beforeEach(async function() {
       this.election = await this.Election.deploy("Elon Musk", "Jeff Bezos", 4);
       await this.election.deployed();
-    });
-
-    it ("Election can be reset after completion", async function() {
       await this.election.connect(this.owner).voteA();
       await this.election.connect(this.alice).voteB();
       await this.election.connect(this.bob).voteA();
+    });
+
+    it ("Election can be reset after completion", async function() {
       await this.election.connect(this.carol).voteB();
       await this.election.connect(this.owner).reset();
     });
 
     it ("Election can only be reset by owner", async function() {
-      await this.election.connect(this.owner).voteA();
-      await this.election.connect(this.alice).voteB();
-      await this.election.connect(this.bob).voteA();
       await this.election.connect(this.carol).voteB();
       await expect(this.election.connect(this.alice).reset()).to.be.revertedWith("caller is not the owner");
     });
@@ -240,5 +237,11 @@ describe("Election", function () {
     it ("Election can only be reset if completed", async function() {
       await expect(this.election.connect(this.owner).reset()).to.be.revertedWith("election is active");
     });
+
+    it ("Reset empties candA name", async function() {
+      await this.election.connect(this.carol).voteB();
+      await this.election.connect(this.owner).reset();
+      expect(await this.election.candA()).to.equal("");
+    })
   });
 });
