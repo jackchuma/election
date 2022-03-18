@@ -87,6 +87,7 @@ contract Election is Ownable {
         _clearMappings();
         totalVotes.reset();
         delete voters;
+        completed = false;
     }
 
     function _clearMappings() private {

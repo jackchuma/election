@@ -333,5 +333,11 @@ describe("Election", function () {
       await this.election.connect(this.owner).reset();
       expect(await this.election.active()).to.equal(false);
     });
+
+    it ("Reset marks election as not completed", async function() {
+      await this.election.connect(this.carol).voteB();
+      await this.election.connect(this.owner).reset();
+      expect(await this.election.completed()).to.equal(false);
+    });
   });
 });
