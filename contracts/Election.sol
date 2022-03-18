@@ -88,6 +88,7 @@ contract Election is Ownable {
         totalVotes.reset();
         delete voters;
         completed = false;
+        winner = Vote.NotVoted;
     }
 
     function _clearMappings() private {

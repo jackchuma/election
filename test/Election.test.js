@@ -250,7 +250,7 @@ describe("Election", function () {
       this.election = await this.Election.deploy("Elon Musk", "Jeff Bezos", 4);
       await this.election.deployed();
       await this.election.connect(this.owner).voteA();
-      await this.election.connect(this.alice).voteB();
+      await this.election.connect(this.alice).voteA();
       await this.election.connect(this.bob).voteA();
     });
 
@@ -338,6 +338,12 @@ describe("Election", function () {
       await this.election.connect(this.carol).voteB();
       await this.election.connect(this.owner).reset();
       expect(await this.election.completed()).to.equal(false);
+    });
+
+    it ("Reset clears winner", async function() {
+      await this.election.connect(this.carol).voteB();
+      await this.election.connect(this.owner).reset();
+      expect(await this.election.winner()).to.equal(0);
     });
   });
 });
