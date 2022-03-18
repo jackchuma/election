@@ -488,14 +488,14 @@ describe("Election", function () {
       await expect(this.election.connect(this.alice).setExpectedVotes(10)).to.be.revertedWith("caller is not the owner");
     });
 
-    xit ("Can only set candB during limbo", async function() {
-      await expect(this.election.connect(this.owner).setCandB("Name B")).to.be.revertedWith("cannot set now");
+    it ("Can only set expectedVotes during limbo", async function() {
+      await expect(this.election.connect(this.owner).setExpectedVotes(10)).to.be.revertedWith("cannot set now");
       await this.election.connect(this.carol).voteB();
-      await expect(this.election.connect(this.owner).setCandB("Name B")).to.be.revertedWith("cannot set now");
+      await expect(this.election.connect(this.owner).setExpectedVotes(10)).to.be.revertedWith("cannot set now");
       await mineBlocks(10);
-      await expect(this.election.connect(this.owner).setCandB("Name B")).to.be.revertedWith("cannot set now");
+      await expect(this.election.connect(this.owner).setExpectedVotes(10)).to.be.revertedWith("cannot set now");
       await this.election.connect(this.owner).reset();
-      await this.election.connect(this.owner).setCandB("Name B");
+      await this.election.connect(this.owner).setExpectedVotes(10);
     });
   });
 });
