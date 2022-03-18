@@ -23,7 +23,7 @@ describe("Election", function () {
 
   context("Voting", async function() {
     this.beforeEach(async function() {
-      this.election = await this.Election.deploy("Elon Musk", "Jeff Bezos", 5);
+      this.election = await this.Election.deploy("Elon Musk", "Jeff Bezos", 4);
       await this.election.deployed();
     });
 
@@ -103,6 +103,14 @@ describe("Election", function () {
       expect((await this.election.totalVotes()).toNumber()).to.equal(3);
       await this.election.connect(this.carol).voteB();
       expect((await this.election.totalVotes()).toNumber()).to.equal(4);
+    });
+
+    it ("marks candidate A as winner if they win", async function() {
+      await this.election.connect(this.owner).voteA();
+      await this.election.connect(this.alice).voteB();
+      await this.election.connect(this.bob).voteA();
+      await this.election.connect(this.carol).voteA();
+      expect(await this.election.winner()).to.equal(1);
     });
   });
 });

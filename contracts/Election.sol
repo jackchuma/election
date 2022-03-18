@@ -44,6 +44,7 @@ contract Election is Ownable {
         totalVotes.increment();
         hasVoted[msg.sender] = true;
         votedFor[msg.sender] = Vote.CandA;
+        _electionStatus();
     }
 
     function voteB() external {
@@ -53,6 +54,7 @@ contract Election is Ownable {
         totalVotes.increment();
         hasVoted[msg.sender] = true;
         votedFor[msg.sender] = Vote.CandB;
+        _electionStatus();
     }
 
     function getVote(address _voter) external view returns (Vote _vote) {
