@@ -123,10 +123,11 @@ contract Election is Ownable {
         expectedVotes = _num;
     }
 
-    function newElection() external view onlyOwner {
+    function newElection() external onlyOwner {
         require(!_equalStrings(candA, ""), "set candA");
         require(!_equalStrings(candB, ""), "set candB");
         require(expectedVotes > 0, "set expectedVotes");
+        active = true;
     }
 
     function _equalStrings(string memory _strA, string memory _strB) private pure returns (bool) {
