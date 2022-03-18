@@ -430,6 +430,14 @@ describe("Election", function () {
       await this.election.connect(this.owner).setCandA("Name A");
       expect(await this.election.candA()).to.equal("Name A");
     });
+
+    it ("Can set candB when election is in limbo", async function() {
+      await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
+      await this.election.connect(this.owner).reset();
+      await this.election.connect(this.owner).setCandB("Name B");
+      expect(await this.election.candB()).to.equal("Name B");
+    });
   });
 });
 
