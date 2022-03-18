@@ -25,6 +25,7 @@ contract Election is Ownable {
 
     bool public active = true;
     bool public completed;
+    bool public limbo;
     Vote public winner;
 
     enum Vote {

@@ -40,6 +40,10 @@ describe("Election", function () {
     it ("winner variable should be empty", async function() {
       expect(await this.election.winner()).to.equal(0);
     });
+
+    it ("limbo should be false", async function() {
+      expect(await this.election.limbo()).to.equal(false);
+    });
   });
 
   context("Voting", async function() {
@@ -266,6 +270,12 @@ describe("Election", function () {
 
     it ("Election can only be reset if completed", async function() {
       await expect(this.election.connect(this.owner).reset()).to.be.revertedWith("election is active");
+    });
+
+    it ("Reset can only be reset once if completed", async function() {
+      await this.election.connect(this.carol).voteB();
+      await this.election.connect(this.owner).reset();
+      await expect(this.election.connect(this.owner).reset()).to.be.revertedWith("election already reset");
     });
 
     it ("Reset empties candA name", async function() {
