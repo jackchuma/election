@@ -431,6 +431,13 @@ describe("Election", function () {
       expect(await this.election.candA()).to.equal("Name A");
     });
 
+    it ("Only owner can set candA", async function() {
+      await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
+      await this.election.connect(this.owner).reset();
+      await expect(this.election.connect(this.alice).setCandA("Name A")).to.be.revertedWith("caller is not the owner");
+    });
+
     it ("Can set candB when election is in limbo", async function() {
       await this.election.connect(this.carol).voteB();
       await mineBlocks(10);
