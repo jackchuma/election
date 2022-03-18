@@ -140,5 +140,13 @@ describe("Election", function () {
       expect(await this.election.getVote(this.bob.address)).to.equal(1);
       expect(await this.election.getVote(this.carol.address)).to.equal(2);
     });
+
+    it ("Cannot vote A if election has completed", async function() {
+      await this.election.connect(this.owner).voteA();
+      await this.election.connect(this.alice).voteB();
+      await this.election.connect(this.bob).voteA();
+      await this.election.connect(this.carol).voteB();
+      await expect(this.election.connect(this.signers[4]).voteA()).to.be.revertedWith("Election has completed");
+    });
   });
 });
