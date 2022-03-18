@@ -43,6 +43,7 @@ contract Election is Ownable {
         expectedVotes = _totalVotes;
     }
 
+    // Can't call during limbo
     function voteA() external {
         require(!completed, "Election has completed");
         require(!hasVoted[msg.sender], "already voted");
@@ -54,6 +55,7 @@ contract Election is Ownable {
         _electionStatus();
     }
 
+    // Can't call during limbo
     function voteB() external {
         require(!completed, "Election has completed");
         require(!hasVoted[msg.sender], "already voted");

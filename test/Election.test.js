@@ -247,6 +247,14 @@ describe("Election", function () {
       await this.election.connect(this.carol).voteB();
       await expect(this.election.connect(this.signers[4]).voteB()).to.be.revertedWith("Election has completed");
     });
+
+    it ("Stores resetBlockNumber when completed", async function() {
+      await this.election.connect(this.owner).voteA();
+      await this.election.connect(this.alice).voteB();
+      await this.election.connect(this.bob).voteA();
+      await this.election.connect(this.carol).voteB();
+      expect((await this.election.resetBlockNumber()).toNumber()).to.equal(15);
+    });
   });
 
   context("Election reset", async function() {
