@@ -413,6 +413,24 @@ describe("Election", function () {
       await expect(this.election.connect(this.owner).voteB()).to.be.revertedWith("election not active");
     });
   });
+
+  context("Limbo", async function() {
+    this.beforeEach(async function() {
+      this.election = await this.Election.deploy("Elon Musk", "Jeff Bezos", 4);
+      await this.election.deployed();
+      await this.election.connect(this.owner).voteA();
+      await this.election.connect(this.alice).voteA();
+      await this.election.connect(this.bob).voteA();
+    });
+
+    it ("Can set candA when election is in limbo", async function() {
+      await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
+      await this.election.connect(this.owner).reset();
+      await this.election.connect(this.owner).setCandA("Name A");
+      expect(await this.election.candA()).to.equal("Name A");
+    });
+  });
 });
 
 async function mineBlocks(n) {

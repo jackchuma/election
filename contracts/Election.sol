@@ -5,6 +5,7 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
+// TODO: add function to initiate election
 // TODO: can edit variables if election is in limbo
 
 contract Election is Ownable {
@@ -106,5 +107,9 @@ contract Election is Ownable {
             hasVoted[voters[i]] = false;
             votedFor[voters[i]] = Vote.NotVoted;
         }
+    }
+
+    function setCandA(string memory _name) external {
+        candA = _name;
     }
 }
