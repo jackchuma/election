@@ -128,6 +128,7 @@ contract Election is Ownable {
         require(!_equalStrings(candB, ""), "set candB");
         require(expectedVotes > 0, "set expectedVotes");
         active = true;
+        limbo = false;
     }
 
     function _equalStrings(string memory _strA, string memory _strB) private pure returns (bool) {

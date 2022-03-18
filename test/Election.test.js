@@ -555,6 +555,17 @@ describe("Election", function () {
       await this.election.connect(this.owner).newElection();
       expect(await this.election.active()).to.equal(true);
     });
+
+    it ("new election sets election as not in limbo", async function() {
+      await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
+      await this.election.connect(this.owner).reset();
+      await this.election.connect(this.owner).setCandA("Name A");
+      await this.election.connect(this.owner).setCandB("Name B");
+      await this.election.connect(this.owner).setExpectedVotes(10);
+      await this.election.connect(this.owner).newElection();
+      expect(await this.election.limbo()).to.equal(false);
+    });
   });
 });
 
