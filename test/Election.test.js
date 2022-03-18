@@ -312,5 +312,14 @@ describe("Election", function () {
       expect(await this.election.hasVoted(this.bob.address)).to.equal(false);
       expect(await this.election.hasVoted(this.carol.address)).to.equal(false);
     });
+
+    it ("Reset clears votedFor", async function() {
+      await this.election.connect(this.carol).voteB();
+      await this.election.connect(this.owner).reset();
+      expect(await this.election.votedFor(this.owner.address)).to.equal(0);
+      expect(await this.election.votedFor(this.alice.address)).to.equal(0);
+      expect(await this.election.votedFor(this.bob.address)).to.equal(0);
+      expect(await this.election.votedFor(this.carol.address)).to.equal(0);
+    });
   });
 });

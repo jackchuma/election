@@ -91,6 +91,7 @@ contract Election is Ownable {
     function _clearMappings() private {
         for (uint i=0; i<totalVotes.current(); i++) {
             hasVoted[voters[i]] = false;
+            votedFor[voters[i]] = Vote.NotVoted;
         }
     }
 }
