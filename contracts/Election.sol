@@ -38,6 +38,7 @@ contract Election is Ownable {
     }
 
     function voteA() external {
+        require(!completed, "Election has completed");
         require(!hasVoted[msg.sender], "already voted");
         aTotal.increment();
         totalVotes.increment();
@@ -46,6 +47,7 @@ contract Election is Ownable {
     }
 
     function voteB() external {
+        require(!completed, "Election has completed");
         require(!hasVoted[msg.sender], "already voted");
         bTotal.increment();
         totalVotes.increment();
