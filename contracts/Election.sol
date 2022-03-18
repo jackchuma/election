@@ -84,6 +84,13 @@ contract Election is Ownable {
         expectedVotes = 0;
         aTotal.reset();
         bTotal.reset();
+        _clearMappings();
         totalVotes.reset();
+    }
+
+    function _clearMappings() private {
+        for (uint i=0; i<totalVotes.current(); i++) {
+            hasVoted[voters[i]] = false;
+        }
     }
 }
