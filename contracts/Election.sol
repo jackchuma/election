@@ -40,6 +40,7 @@ contract Election is Ownable {
     function voteA() external {
         require(!hasVoted[msg.sender], "already voted");
         aTotal.increment();
+        totalVotes.increment();
         hasVoted[msg.sender] = true;
         votedFor[msg.sender] = Vote.CandA;
     }
@@ -47,6 +48,7 @@ contract Election is Ownable {
     function voteB() external {
         require(!hasVoted[msg.sender], "already voted");
         bTotal.increment();
+        totalVotes.increment();
         hasVoted[msg.sender] = true;
         votedFor[msg.sender] = Vote.CandB;
     }

@@ -93,7 +93,7 @@ describe("Election", function () {
       expect(await this.election.votedFor(this.carol.address)).to.equal(2);
     });
 
-    it.only ("keeps track of total votes received", async function() {
+    it ("keeps track of total votes received", async function() {
       expect((await this.election.totalVotes()).toNumber()).to.equal(0);
       await this.election.connect(this.owner).voteA();
       expect((await this.election.totalVotes()).toNumber()).to.equal(1);
