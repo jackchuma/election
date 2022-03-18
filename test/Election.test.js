@@ -399,11 +399,18 @@ describe("Election", function () {
       expect(await this.election.winner()).to.equal(0);
     });
 
-    it ("Cannot voteA after reset", async function() {
+    it ("Cannot vote A after reset", async function() {
       await this.election.connect(this.carol).voteB();
       await mineBlocks(10);
       await this.election.connect(this.owner).reset();
       await expect(this.election.connect(this.owner).voteA()).to.be.revertedWith("election not active");
+    });
+
+    it ("Cannot vote B after reset", async function() {
+      await this.election.connect(this.carol).voteB();
+      await mineBlocks(10);
+      await this.election.connect(this.owner).reset();
+      await expect(this.election.connect(this.owner).voteB()).to.be.revertedWith("election not active");
     });
   });
 });

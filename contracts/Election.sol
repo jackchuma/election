@@ -54,8 +54,8 @@ contract Election is Ownable {
         _electionStatus();
     }
 
-    // Can't call during limbo
     function voteB() external {
+        require(!limbo, "election not active");
         require(!completed, "Election has completed");
         require(!hasVoted[msg.sender], "already voted");
         bTotal.increment();
